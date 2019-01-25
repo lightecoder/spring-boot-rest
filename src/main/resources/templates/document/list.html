@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring project</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+</head>
+<body>
+<div class="container">
+    <div th:if="${not #lists.isEmpty(documents)}">
+        <h2>Document List</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>id</th>
+                <th>hash</th>
+                <th>description</th>
+                <th>format</th>
+                <th>url</th>
+                <th>title</th>
+                <th>documentOf</th>
+                <th>datePublished</th>
+                <th>dateModified</th>
+                <th>documentType</th>
+                <th>relatedItem</th>
+                <th>List</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="document : ${documents}">
+                <td th:text="${document.id}"></td>
+                <td th:text="${document.hash}"></td>
+                <td th:text="${document.description}"></td>
+                <td th:text="${document.format}"></td>
+                <td th:text="${document.url}"></td>
+                <td th:text="${document.title}"></td>
+                <td th:text="${document.documentOf}"></td>
+                <td th:text="${document.datePublished}"></td>
+                <td th:text="${document.dateModified}"></td>
+                <td th:text="${document.documentType}"></td>
+                <td th:text="${document.relatedItem}"></td>
+                <td><a th:href="${'/document/show/' + document.id}">View</a></td>
+                <td><a th:href="${'/document/edit/' + document.id}">Edit</a></td>
+                <td><a th:href="${'/document/delete/' + document.id}">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <a href="/document/new">New Document</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <a href="/document/fromEndPoint">Save documents into postgreSQL from endpoint</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
