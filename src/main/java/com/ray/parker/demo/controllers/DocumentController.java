@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,7 +44,7 @@ public class DocumentController {
     }
 
     @RequestMapping("/")
-    public String redirToList() {
+    public String redirectToList() {
         return "redirect:/document/list";
     }
 
@@ -74,8 +75,9 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/document", method = RequestMethod.POST)
-    public String saveOrUpdateDocument(@Valid DocumentForm documentForm, BindingResult bindingResult) {
+    public String saveOrUpdateDocument(@Valid @ModelAttribute("documentForm") DocumentForm documentForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("documentForm", documentForm);
             return "document/documentform";
         }
         Document savedDocument = documentService.saveOrUpdateDocumentForm(documentForm);

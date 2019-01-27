@@ -2,6 +2,8 @@ package com.ray.parker.demo.domain;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by RP on 25/01/18.
@@ -11,7 +13,10 @@ import javax.persistence.*;
 public class Document {
 
     @Id
+    @NotNull(message = "Please provide id.")
     private String id;
+    @NotNull(message = "Please provide hash.")
+    @Size(min = 7, message = "Hash should have at least 7 characters.")
     private String hash;
     private String description;
     private String format;

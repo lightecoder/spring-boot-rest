@@ -20,7 +20,8 @@
     <div>
         <form class="form-horizontal" th:object="${documentForm}" th:action="@{/document}" method="post">
             <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                <p th:text="#{form.hasErrors}">Error Message</p>
+                <!--<p th:text="#{documentForm.hasErrors}">Error Message</p>-->
+                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
             </div>
 
             <div class="form-group" th:class="${#fields.hasErrors('id')} ? 'form-group has-error' : 'form-group'">
@@ -30,6 +31,9 @@
                     <span class="help-block">
                        <ul>
                            <li th:each="err : ${#fields.errors('id')}" th:text="${err}" />
+                           <p th:if="${#fields.hasErrors('id')}" class="label label-danger"
+                              th:errors="*{id}">Incorrect ID</p>
+
                        </ul>
                     </span>
                 </div>
