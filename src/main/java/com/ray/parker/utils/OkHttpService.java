@@ -1,4 +1,4 @@
-package com.ray.parker.demo.utils;
+package com.ray.parker.utils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

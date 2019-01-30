@@ -1,4 +1,4 @@
-package com.ray.parker.demo;
+package com.ray.parker;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

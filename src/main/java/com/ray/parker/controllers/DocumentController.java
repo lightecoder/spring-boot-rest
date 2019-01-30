@@ -1,26 +1,24 @@
-package com.ray.parker.demo.controllers;
+package com.ray.parker.controllers;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ray.parker.demo.commands.DocumentForm;
-import com.ray.parker.demo.converters.DocumentToDocumentForm;
-import com.ray.parker.demo.domain.DataWrapper;
-import com.ray.parker.demo.domain.Document;
-import com.ray.parker.demo.services.DocumentService;
-import com.ray.parker.demo.utils.OkHttpService;
+import com.ray.parker.domain.DataWrapper;
+import com.ray.parker.domain.Document;
+import com.ray.parker.repositories.DocumentRepository;
+import com.ray.parker.utils.OkHttpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,65 +26,64 @@ import java.util.List;
  * Created by Ray Parker on 25/01/18.
  */
 @Controller
-public class DocumentController {
+public class DocumentController implements WebMvcConfigurer {
     private final static Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
-    private DocumentService documentService;
-    private DocumentToDocumentForm documentToDocumentForm;
+    private DocumentRepository documentRepository;
 
-    @Autowired
-    public void setDocumentToDocumentForm(DocumentToDocumentForm documentToDocumentForm) {
-        this.documentToDocumentForm = documentToDocumentForm;
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/document/list").setViewName("list");
     }
 
     @Autowired
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
+    public void setDocumentRepository(DocumentRepository documentRepository) {
+        this.documentRepository = documentRepository;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String redirectToList() {
         return "redirect:/document/list";
     }
 
-    @RequestMapping({"/document/list", "/document"})
+    @GetMapping({"/document/list", "/document"})
     public String listDocuments(Model model) {
-        model.addAttribute("documents", documentService.listAll());
+        List<Document> documents = new ArrayList<>();
+        documentRepository.findAll().forEach(documents::add);
+        model.addAttribute("documents", documents);
         return "document/list";
     }
 
-    @RequestMapping("/document/show/{id}")
+    @GetMapping("/document/show/{id}")
     public String getDocument(@PathVariable String id, Model model) {
-        model.addAttribute("document", documentService.getById(id));
+        model.addAttribute("document", documentRepository.findById(id).orElse(null));
         return "document/show";
     }
 
-    @RequestMapping("document/edit/{id}")
+    @GetMapping("document/edit/{id}")
     public String edit(@PathVariable String id, Model model) {
-        Document document = documentService.getById(id);
-        DocumentForm documentForm = documentToDocumentForm.convert(document);
-        model.addAttribute("documentForm", documentForm);
+        Document document = documentRepository.findById(id).orElse(null);
+        model.addAttribute("document", document);
         return "document/documentform";
     }
 
-    @RequestMapping("/document/new")
+    @GetMapping("/document/new")
     public String newDocument(Model model) {
-        model.addAttribute("documentForm", new DocumentForm());
+        model.addAttribute("document", new Document()); // -> th:object="${document} in html page
         return "document/documentform";
     }
 
-    @RequestMapping(value = "/document", method = RequestMethod.POST)
-    public String saveOrUpdateDocument(@Valid @ModelAttribute("documentForm") DocumentForm documentForm, BindingResult bindingResult, Model model) {
+    @PostMapping("/document")
+    public String saveOrUpdateDocument(@Valid Document document, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("documentForm", documentForm);
             return "document/documentform";
         }
-        Document savedDocument = documentService.saveOrUpdateDocumentForm(documentForm);
+        Document savedDocument =  documentRepository.save(document);
         return "redirect:/document/show/" + savedDocument.getId();
     }
 
     @RequestMapping("/document/delete/{id}")
     public String delete(@PathVariable String id) {
-        documentService.delete(id);
+        documentRepository.deleteById(id);
         return "redirect:/document/list";
     }
 
@@ -100,12 +97,14 @@ public class DocumentController {
             ObjectMapper objectMapper = new ObjectMapper();
             final DataWrapper data = objectMapper.readValue(stringData, DataWrapper.class);
             List<Document> documents = data.getDocuments();
-            documentService.saveAll(documents);
+            documentRepository.saveAll(documents);
             LOGGER.info("Data from endpoint was successfully saved.");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        model.addAttribute("documents", documentService.listAll());
+        List<Document> documents = new ArrayList<>();
+        documentRepository.findAll().forEach(documents::add);
+        model.addAttribute("documents", documents);
         return "document/list";
     }
 }

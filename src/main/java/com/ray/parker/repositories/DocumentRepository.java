@@ -1,7 +1,7 @@
-package com.ray.parker.demo.repositories;
+package com.ray.parker.repositories;
 
 
-import com.ray.parker.demo.domain.Document;
+import com.ray.parker.domain.Document;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

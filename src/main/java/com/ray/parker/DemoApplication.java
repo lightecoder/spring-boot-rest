@@ -1,4 +1,4 @@
-package com.ray.parker.demo;
+package com.ray.parker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

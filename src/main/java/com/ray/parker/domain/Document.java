@@ -1,8 +1,8 @@
-package com.ray.parker.demo.domain;
+package com.ray.parker.domain;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 /**
@@ -13,11 +13,12 @@ import javax.validation.constraints.Size;
 public class Document {
 
     @Id
-    @NotNull(message = "Please provide id.")
+    @NotEmpty(message = "The field is empty. Please provide id.")
     private String id;
-    @NotNull(message = "Please provide hash.")
-    @Size(min = 7, message = "Hash should have at least 7 characters.")
+    @NotEmpty(message = "The field is empty. Please provide hash.")
+    @Size(min = 1, message = "Hash should have min 1 character.") // may cause exception in DB during reading json
     private String hash;
+    @Size(max = 5, message = "Description should have max 5 characters.") // may cause exception in DB during reading json
     private String description;
     private String format;
     private String url;
@@ -114,5 +115,22 @@ public class Document {
 
     public void setRelatedItem(String relatedItem) {
         this.relatedItem = relatedItem;
+    }
+
+    @Override
+    public String toString() {
+        return "Document{" +
+                "id='" + id + '\'' +
+                ", hash='" + hash + '\'' +
+                ", description='" + description + '\'' +
+                ", format='" + format + '\'' +
+                ", url='" + url + '\'' +
+                ", title='" + title + '\'' +
+                ", documentOf='" + documentOf + '\'' +
+                ", datePublished='" + datePublished + '\'' +
+                ", dateModified='" + dateModified + '\'' +
+                ", documentType='" + documentType + '\'' +
+                ", relatedItem='" + relatedItem + '\'' +
+                '}';
     }
 }
