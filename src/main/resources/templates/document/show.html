@@ -4,161 +4,42 @@
     <title>Spring project - Show Document</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen"/>
-    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
-            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 </head>
 <body>
-<div class="container">
-
-    <div class="row">
-        <div class="col-sm-6">
-            <h2>Show Document</h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-8">
-            <form class="form-horizontal">
-                <table>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">Document Id:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.id}">Document Id</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">Hash:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.hash}">Hash</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">Description:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.description}">Description</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">Format:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.format}">Format</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">Url:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.url}">Url</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">Title:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.title}">Title</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">DocumentOf:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.documentOf}">DocumentOf</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">DatePublished:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.datePublished}">DatePublished</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">DateModified:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.dateModified}">DateModified</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">DocumentType:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.documentType}">DocumentType</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="form-group">
-                        <tr>
-                            <td>
-                                <label class="col-sm-2 control-label">RelatedItem:</label>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static" th:text="${document.relatedItem}">RelatedItem</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                </table>
-            </form>
-        </div>
-    </div>
-</div>
-
+<table>
+    <tr>
+        <td>Document Id:</td><td><p th:text="${document.id}">Document Id</p></td>
+    </tr>
+    <tr>
+        <td>Document Hash:</td><td><p th:text="${document.hash}">Document Hash</p></td>
+    </tr>
+    <tr>
+        <td>Document Description:</td><td><p th:text="${document.description}">Document Description</p></td>
+    </tr>
+    <tr>
+        <td>Document Format:</td><td><p th:text="${document.format}">Document Format</p></td>
+    </tr>
+    <tr>
+        <td>Document Url:</td><td><p th:text="${document.url}">Document Url</p></td>
+    </tr>
+    <tr>
+        <td>Document Title:</td><td><p th:text="${document.title}">Document Title</p></td>
+    </tr>
+    <tr>
+        <td>Document DocumentOf:</td><td><p th:text="${document.documentOf}">Document DocumentOf</p></td>
+    </tr>
+    <tr>
+        <td>Document DatePublished:</td><td><p th:text="${document.datePublished}">Document DatePublished</p></td>
+    </tr>
+    <tr>
+        <td>Document DateModified:</td><td><p th:text="${document.dateModified}">Document DateModified</p></td>
+    </tr>
+    <tr>
+        <td>Document DocumentType:</td><td><p th:text="${document.documentType}">Document DocumentType</p></td>
+    </tr>
+    <tr>
+        <td>Document RelatedItem:</td><td><p th:text="${document.relatedItem}">Document RelatedItem</p></td>
+    </tr>
+</table>
 </body>
 </html>

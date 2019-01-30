@@ -3,15 +3,8 @@
 <head>
     <title>Spring project</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen"/>
-    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
-            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 </head>
 <body>
-<div class="container">
     <div th:if="${not #lists.isEmpty(documents)}">
         <h2>Document List</h2>
         <table class="table table-striped">
@@ -59,7 +52,5 @@
             <a href="/document/fromEndPoint">Save documents into postgreSQL from endpoint</a>
         </div>
     </div>
-</div>
-
 </body>
 </html>
