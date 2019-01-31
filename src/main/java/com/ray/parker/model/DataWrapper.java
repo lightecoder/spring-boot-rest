@@ -1,4 +1,4 @@
-package com.ray.parker.domain;
+package com.ray.parker.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

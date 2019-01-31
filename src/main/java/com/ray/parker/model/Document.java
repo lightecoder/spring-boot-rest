@@ -1,4 +1,4 @@
-package com.ray.parker.domain;
+package com.ray.parker.model;
 
 
 import javax.persistence.*;
@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 public class Document {
 
     @Id
+    //@GeneratedValue(strategy = GenerationType.AUTO) disabled due to reason -> we get from endpoint it's own id in String representation
     @NotEmpty(message = "The field is empty. Please provide id.")
     private String id;
     @NotEmpty(message = "The field is empty. Please provide hash.")

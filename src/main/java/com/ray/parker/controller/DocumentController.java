@@ -1,10 +1,11 @@
-package com.ray.parker.controllers;
+package com.ray.parker.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ray.parker.domain.DataWrapper;
-import com.ray.parker.domain.Document;
-import com.ray.parker.repositories.DocumentRepository;
+import com.ray.parker.model.DataWrapper;
+import com.ray.parker.model.Document;
+import com.ray.parker.dao.DocumentRepository;
+import com.ray.parker.services.DocumentService;
 import com.ray.parker.utils.OkHttpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ import java.util.List;
 @Controller
 public class DocumentController implements WebMvcConfigurer {
     private final static Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
-    private DocumentRepository documentRepository;
+    private DocumentService documentService;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -36,8 +37,8 @@ public class DocumentController implements WebMvcConfigurer {
     }
 
     @Autowired
-    public void setDocumentRepository(DocumentRepository documentRepository) {
-        this.documentRepository = documentRepository;
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
     @GetMapping("/")
@@ -47,21 +48,19 @@ public class DocumentController implements WebMvcConfigurer {
 
     @GetMapping({"/document/list", "/document"})
     public String listDocuments(Model model) {
-        List<Document> documents = new ArrayList<>();
-        documentRepository.findAll().forEach(documents::add);
-        model.addAttribute("documents", documents);
+        model.addAttribute("documents", documentService.listAll());
         return "document/list";
     }
 
     @GetMapping("/document/show/{id}")
     public String getDocument(@PathVariable String id, Model model) {
-        model.addAttribute("document", documentRepository.findById(id).orElse(null));
+        model.addAttribute("document", documentService.getById(id));
         return "document/show";
     }
 
     @GetMapping("document/edit/{id}")
     public String edit(@PathVariable String id, Model model) {
-        Document document = documentRepository.findById(id).orElse(null);
+        Document document = documentService.getById(id);
         model.addAttribute("document", document);
         return "document/documentform";
     }
@@ -77,13 +76,13 @@ public class DocumentController implements WebMvcConfigurer {
         if (bindingResult.hasErrors()) {
             return "document/documentform";
         }
-        Document savedDocument =  documentRepository.save(document);
+        Document savedDocument = documentService.saveOrUpdate(document);
         return "redirect:/document/show/" + savedDocument.getId();
     }
 
     @RequestMapping("/document/delete/{id}")
     public String delete(@PathVariable String id) {
-        documentRepository.deleteById(id);
+        documentService.delete(id);
         return "redirect:/document/list";
     }
 
@@ -97,13 +96,12 @@ public class DocumentController implements WebMvcConfigurer {
             ObjectMapper objectMapper = new ObjectMapper();
             final DataWrapper data = objectMapper.readValue(stringData, DataWrapper.class);
             List<Document> documents = data.getDocuments();
-            documentRepository.saveAll(documents);
+            documentService.saveAll(documents);
             LOGGER.info("Data from endpoint was successfully saved.");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        List<Document> documents = new ArrayList<>();
-        documentRepository.findAll().forEach(documents::add);
+        List<Document> documents = documentService.listAll();
         model.addAttribute("documents", documents);
         return "document/list";
     }
