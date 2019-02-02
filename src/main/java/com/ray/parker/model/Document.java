@@ -119,6 +119,46 @@ public class Document {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Document document = (Document) o;
+
+        if (id != null ? !id.equals(document.id) : document.id != null) return false;
+        if (hash != null ? !hash.equals(document.hash) : document.hash != null) return false;
+        if (description != null ? !description.equals(document.description) : document.description != null)
+            return false;
+        if (format != null ? !format.equals(document.format) : document.format != null) return false;
+        if (url != null ? !url.equals(document.url) : document.url != null) return false;
+        if (title != null ? !title.equals(document.title) : document.title != null) return false;
+        if (documentOf != null ? !documentOf.equals(document.documentOf) : document.documentOf != null) return false;
+        if (datePublished != null ? !datePublished.equals(document.datePublished) : document.datePublished != null)
+            return false;
+        if (dateModified != null ? !dateModified.equals(document.dateModified) : document.dateModified != null)
+            return false;
+        if (documentType != null ? !documentType.equals(document.documentType) : document.documentType != null)
+            return false;
+        return relatedItem != null ? relatedItem.equals(document.relatedItem) : document.relatedItem == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (hash != null ? hash.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (format != null ? format.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (documentOf != null ? documentOf.hashCode() : 0);
+        result = 31 * result + (datePublished != null ? datePublished.hashCode() : 0);
+        result = 31 * result + (dateModified != null ? dateModified.hashCode() : 0);
+        result = 31 * result + (documentType != null ? documentType.hashCode() : 0);
+        result = 31 * result + (relatedItem != null ? relatedItem.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Document{" +
                 "id='" + id + '\'' +

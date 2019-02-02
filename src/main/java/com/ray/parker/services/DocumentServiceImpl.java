@@ -43,7 +43,6 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public void delete(String id) {
         documentRepository.deleteById(id);
-
     }
 
     @Override

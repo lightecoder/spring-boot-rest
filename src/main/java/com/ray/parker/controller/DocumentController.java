@@ -4,7 +4,6 @@ package com.ray.parker.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ray.parker.model.DataWrapper;
 import com.ray.parker.model.Document;
-import com.ray.parker.dao.DocumentRepository;
 import com.ray.parker.services.DocumentService;
 import com.ray.parker.utils.OkHttpService;
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +28,7 @@ import java.util.List;
 public class DocumentController implements WebMvcConfigurer {
     private final static Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
     private DocumentService documentService;
+    private OkHttpService okhttpService;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -37,8 +36,9 @@ public class DocumentController implements WebMvcConfigurer {
     }
 
     @Autowired
-    public void setDocumentService(DocumentService documentService) {
+    public void setDocumentService(DocumentService documentService, OkHttpService okhttpService) {
         this.documentService = documentService;
+        this.okhttpService = okhttpService;
     }
 
     @GetMapping("/")
@@ -87,21 +87,15 @@ public class DocumentController implements WebMvcConfigurer {
     }
 
     @RequestMapping("/document/fromEndPoint")
-    public String saveDocumentsFromEndpoint(Model model) {
-        // get json data from response
-        try {
-            OkHttpService okhttpService = new OkHttpService();
-            String stringData = okhttpService.getResponseData("https://lb-api-sandbox.prozorro.gov.ua/api/2.4/" +
-                    "contracts/4805f381d48948b1b34d6ea2daa029a3/documents");
-            ObjectMapper objectMapper = new ObjectMapper();
-            final DataWrapper data = objectMapper.readValue(stringData, DataWrapper.class);
-            List<Document> documents = data.getDocuments();
-            documentService.saveAll(documents);
-            LOGGER.info("Data from endpoint was successfully saved.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        List<Document> documents = documentService.listAll();
+    public String saveDocumentsFromEndpoint(Model model) throws IOException {
+        String stringData = okhttpService.getResponseData("https://lb-api-sandbox.prozorro.gov.ua/api/2.4/" +
+                "contracts/4805f381d48948b1b34d6ea2daa029a3/documents");
+        ObjectMapper objectMapper = new ObjectMapper();
+        DataWrapper data = objectMapper.readValue(stringData, DataWrapper.class);
+        List<Document> documents = data.getDocuments();
+        documentService.saveAll(documents);
+        LOGGER.info("Data from endpoint was successfully saved.");
+        documents = documentService.listAll();
         model.addAttribute("documents", documents);
         return "document/list";
     }
