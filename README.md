@@ -23,7 +23,6 @@ for the ability to display data on HTML pages.
 * Maven
 * Spring Boot
 * PostgreSQL Data Base
-* JDBC
 * OkHTTP
 * JUnit
 * Mockito
