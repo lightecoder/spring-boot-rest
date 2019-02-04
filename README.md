@@ -36,14 +36,13 @@ To run the project you need installed :
   * pgadmin, min version 4-4.1
     
 ### Installation and running
-To install and run the project on localhost: 
  * Install JDK, JRE, set parameters for environment variables. Install Apache Tomcat, install Apache Maven. 
  * Install Intellij Idea.
  * Clone/fork or download the project [project](https://github.com/bestXakep/spring-boot-rest)  from the GitHub.
  * Add pom.xml file as Maven dependencies.
  * Add Spring Boot configuration and write the path to main class "com.ray.parker.DemoApplication".
  * Install pgadmin and set up your postgreSQL database. Create schema = "json", name = "document" as noted in Document class.
- * Run application.
+ * Run application. The project will be available on localhost:8080.
 
 ## Author
 Bodyak Iaroslav (e-mail: [4456602@gmail.com](mailto:4456602@gmail.com))
