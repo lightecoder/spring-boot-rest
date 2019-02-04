@@ -17,9 +17,6 @@ for the ability to display data on HTML pages.
 * [Technologies](#technologies)
 * [Prerequisites](#prerequisites)
 * [Installation and running](#installation-and-running)
-* [General project requirements](#general-project-requirements)
-* [EERD scheme](#EERD-scheme)
-* [Architecture](#architecture)
 * [Authors](#author)
 
 ### Technologies
