@@ -8,8 +8,8 @@ for the ability to display data on HTML pages.
 1. The project is executed on SpringBoot.
 2. Build Maven.
 3. Http client OkHttp.
-4. The DB of your choice, preferably postgres
-5. Mockito Tests, Junit
+4. Postgres database.
+5. Mockito Tests, Junit.
 
 ## Table of Contents
 * [Project name](#project-name)
