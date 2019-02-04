@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ray.parker.model.DataWrapper;
 import com.ray.parker.model.Document;
 import com.ray.parker.services.DocumentService;
-import com.ray.parker.utils.OkHttpService;
+import com.ray.parker.utils.HttpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +29,8 @@ import java.util.List;
 public class DocumentController implements WebMvcConfigurer {
     private final static Logger LOGGER = LoggerFactory.getLogger(DocumentController.class);
     private DocumentService documentService;
-    private OkHttpService okhttpService;
+    private HttpService httpService;
+    private MessageSource messageSource;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -36,9 +38,10 @@ public class DocumentController implements WebMvcConfigurer {
     }
 
     @Autowired
-    public void setDocumentService(DocumentService documentService, OkHttpService okhttpService) {
+    public void setDocumentService(DocumentService documentService, HttpService httpService, MessageSource messageSource) {
         this.documentService = documentService;
-        this.okhttpService = okhttpService;
+        this.httpService = httpService;
+        this.messageSource = messageSource;
     }
 
     @GetMapping("/")
@@ -88,7 +91,7 @@ public class DocumentController implements WebMvcConfigurer {
 
     @RequestMapping("/document/fromEndPoint")
     public String saveDocumentsFromEndpoint(Model model) throws IOException {
-        String stringData = okhttpService.getResponseData("https://lb-api-sandbox.prozorro.gov.ua/api/2.4/" +
+        String stringData = httpService.getResponseData("https://lb-api-sandbox.prozorro.gov.ua/api/2.4/" +
                 "contracts/4805f381d48948b1b34d6ea2daa029a3/documents");
         ObjectMapper objectMapper = new ObjectMapper();
         DataWrapper data = objectMapper.readValue(stringData, DataWrapper.class);

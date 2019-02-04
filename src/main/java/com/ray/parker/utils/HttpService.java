@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public class OkHttpService {
+public class HttpService {
 
-    private OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client;
 
     @Autowired
-    public OkHttpService(OkHttpClient client) {
+    public HttpService(OkHttpClient client) {
         this.client = client;
     }
 

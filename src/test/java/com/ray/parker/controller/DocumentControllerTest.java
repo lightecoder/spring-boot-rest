@@ -4,14 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ray.parker.model.DataWrapper;
 import com.ray.parker.model.Document;
 import com.ray.parker.services.DocumentService;
-import com.ray.parker.utils.OkHttpService;
+import com.ray.parker.utils.HttpService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
@@ -21,13 +23,14 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@WebMvcTest(DocumentController.class)
 public class DocumentControllerTest {
 
     @Autowired
     private DocumentController documentController;
+
+    private MockMvc mockMvc;
     @MockBean
     private DocumentService documentService;
     @MockBean
@@ -37,12 +40,13 @@ public class DocumentControllerTest {
     @MockBean
     private BindingResult bindingResult;
     @MockBean
-    private OkHttpService okhttpService;
-    private  String stringData;
+    private HttpService httpService;
+    private String stringData;
 
     @Before
     public void setUp() {
-       stringData = "{\"data\": [{\"hash\": \"md5:232dba893a22ac722249ad92f8bccf22\", \"format\": \"text/plain\"," +
+        mockMvc = MockMvcBuilders.standaloneSetup(documentController).build();
+        stringData = "{\"data\": [{\"hash\": \"md5:232dba893a22ac722249ad92f8bccf22\", \"format\": \"text/plain\"," +
                 " \"url\": \"https://public-docs-sandbox.prozorro.gov.ua/get/3500487074064bd98f1076c21fe69e9a?KeyID=1331dc52" +
                 "&Signature=w%252BTQLJCiU%2FDQXfp%2FxB0VfDNRzImPv7zch3e8H1jfVOZrDJZuam%2FOTVLlvpdUiz9WVLHdUzdMrQJclbl4Vs28C" +
                 "Q%253D%253D\", \"title\": \"11.09.2018.xlsx\", \"documentOf\": \"tender\", \"datePublished\": \"2018-09-19T1" +
@@ -54,6 +58,14 @@ public class DocumentControllerTest {
     public void redirectToList() {
         assertEquals("redirect:/document/list", documentController.redirectToList());
     }
+
+    // need to configurate MVC Controllers
+//    @Test
+//    public void redirectToList() throws Exception {
+//       mockMvc.perform(get("/"))
+//               .andExpect(status().isOk())
+//               .andExpect(content().string("redirect:/document/list"));
+//    }
 
     @Test
     public void listDocuments() {
@@ -96,14 +108,14 @@ public class DocumentControllerTest {
 
     @Test
     public void saveDocumentsFromEndpointReturnPage() throws IOException {
-        when(okhttpService.getResponseData(any(String.class))).thenReturn(stringData);
+        when(httpService.getResponseData(any(String.class))).thenReturn(stringData);
         assertEquals("document/list", documentController.saveDocumentsFromEndpoint(model));
 
     }
 
     @Test(expected = IOException.class)
     public void saveDocumentsFromEndpointThrowsIOException() throws IOException {
-        when(okhttpService.getResponseData(any(String.class))).thenThrow(IOException.class);
+        when(httpService.getResponseData(any(String.class))).thenThrow(IOException.class);
         documentController.saveDocumentsFromEndpoint(model);
     }
 
@@ -112,7 +124,7 @@ public class DocumentControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         DataWrapper data = objectMapper.readValue(stringData, DataWrapper.class);
         List<Document> documents = data.getDocuments();
-        when(okhttpService.getResponseData(any(String.class))).thenReturn(stringData);
+        when(httpService.getResponseData(any(String.class))).thenReturn(stringData);
         documentController.saveDocumentsFromEndpoint(model);
         verify(documentService, times(1)).saveAll(documents);
         verify(documentService, times(1)).listAll();
