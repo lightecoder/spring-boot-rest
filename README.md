@@ -3,8 +3,8 @@
 
 ## Description
 This is a mini project that loads JSON data from the HTTP REST server to the database. 
-The code is covered by unit tests that check the functionality. I also implemented MVC, 
-for the ability to display data on HTML pages and and perform CRUD operations.
+The code is covered by unit tests that check the functionality. I also implemented MVC 
+for the ability to display data on HTML pages and perform CRUD operations, validation input data on HTML pages. 
 1. The project is executed on SpringBoot.
 2. Build Maven.
 3. Http client OkHttp.
