@@ -46,26 +46,13 @@ public class DocumentControllerTest {
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(documentController).build();
-        stringData = "{\"data\": [{\"hash\": \"md5:232dba893a22ac722249ad92f8bccf22\", \"format\": \"text/plain\"," +
-                " \"url\": \"https://public-docs-sandbox.prozorro.gov.ua/get/3500487074064bd98f1076c21fe69e9a?KeyID=1331dc52" +
-                "&Signature=w%252BTQLJCiU%2FDQXfp%2FxB0VfDNRzImPv7zch3e8H1jfVOZrDJZuam%2FOTVLlvpdUiz9WVLHdUzdMrQJclbl4Vs28C" +
-                "Q%253D%253D\", \"title\": \"11.09.2018.xlsx\", \"documentOf\": \"tender\", \"datePublished\": \"2018-09-19T1" +
-                "3:12:21.136232+03:00\", \"documentType\": \"subContract\", \"dateModified\": \"2018-09-19T13:12:21.136263+03:" +
-                "00\", \"id\": \"4f6d6dc59d1844bb80143ccc2e727a2f\"}]}";
+        stringData = "{\"data\": [{\"hash\": \"md5:232dba893a22ac722249ad92f8bccf22\"}]}";
     }
 
     @Test
     public void redirectToList() {
         assertEquals("redirect:/document/list", documentController.redirectToList());
     }
-
-    // need to configurate MVC Controllers
-//    @Test
-//    public void redirectToList() throws Exception {
-//       mockMvc.perform(get("/"))
-//               .andExpect(status().isOk())
-//               .andExpect(content().string("redirect:/document/list"));
-//    }
 
     @Test
     public void listDocuments() {
