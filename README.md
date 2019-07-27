@@ -2,9 +2,9 @@
 ### Spring Boot project for saving data from HTTP response to data base.
 
 ## Description
-This is a mini project that loads JSON data from the HTTP REST server to the database. 
-The code is covered by unit tests that check the functionality. I also implemented MVC 
-for the ability to display data on HTML pages and perform CRUD operations, validation input data on HTML pages. 
+REST API project. Spring Boot project for saving data from HTTP server response to the database. We have end-points which persist some data in JSON format. We need to obtain data from these end-points via OkHttpClient and than to store its data in the PostgreSQL database. The main demand was used SpringBoot framework for creating an app.
+Participation - This is a mini project that loads JSON data from the HTTP REST server to the database. The code is covered by unit tests that check the functionality. I also implemented MVC for the ability to display data on HTML pages and perform CRUD operations, validation input data on HTML pages.
+
 1. The project is executed on SpringBoot.
 2. Build Maven.
 3. Http client OkHttp.
